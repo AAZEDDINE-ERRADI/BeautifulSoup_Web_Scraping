@@ -4,43 +4,44 @@ import pandas as pd
 from itertools import zip_longest
 
 # Create empty lists, column of data ew want to srap
-MovieTitle = []
-IMDBRating = []
-Year = []
-Links = []
+movietitle = []
+ratings = []
+year = []
 
-class Top_Movies:
-    def GetSoup(self):
+
+class TopMovies:
+    def getsoup(self):
         # Save page content
-        GetLink = requests.get("https://www.imdb.com/chart/top/?ref_=nv_mv_250")
-        src = GetLink.content
+        getlink = requests.get("https://www.imdb.com/chart/top/?ref_=nv_mv_250")
+        src = getlink.content
         # Create soup object to parse content
         soup = BeautifulSoup(src, 'lxml')
         return soup
 
-    def GetElements(self):
-        soup = self.GetSoup() # we called the method
+    def getelements(self):
+        # we called the method
+        soup = self.getsoup()
         # Find the elements containing info we need
-        MovieTitle = soup.find_all("td", {"class":"titleColumn"})
-        IMDBRating = soup.find_all("td", {"class":"ratingColumn imdbRating"})
-        Year = soup.find_all("span", {"class":"secondaryInfo"})
-        return MovieTitle, IMDBRating, Year, Links
+        section = soup.find("tbody", class_="lister-list")
+        movietitle = section.find_all("td", class_="titleColumn")
+        ratings = section.find_all("td", class_="ratingColumn imdbRating")
+        year = section.find_all("span", class_="secondaryInfo")
+        return movietitle, ratings, year
 
-    def FillLists(self):
+    def fillelists(self):
         # Loop over returned lists to extract needed info into other list
-        MovieTitle, IMDBRating, Year, Links = self.GetElements()
-        for i in range(len(MovieTitle)):
-            MovieTitle.append(MovieTitle[i].text)
-            Links.append(MovieTitle[i].find("a").attrs['href'])
-            IMDBRating.append(IMDBRating[i].text)
-            Year.append(Year[i].text)
-        return MovieTitle, IMDBRating, Year, Links
+        movietitle, ratings, year = self.getelements()
+        for i in range(len(movietitle)):
+            movietitle.append(movietitle[i].text)
+            ratings.append(ratings[i].text)
+            year.append(year[i].text)
+        return movietitle, ratings, year
 
-    def SaveResults(self):
+    def saveresults(self):
         # Create csv file and fill it with values
-        MovieTitle, IMDBRating, Year, Links = self.FillLists()
-        result = list(zip_longest(MovieTitle, IMDBRating, Year, Links))
+        movietitle, ratings, year = self.fillelists()
+        result = list(zip_longest(movietitle, ratings, year))
         df = pd.DataFrame(result)
-        df.columns = ['Movie Title', 'IMDB Rating', 'Year', 'Link']
+        df.columns = ['Movie Title', 'IMDB Rating', 'Year']
         df.to_csv('movies.csv')
 
