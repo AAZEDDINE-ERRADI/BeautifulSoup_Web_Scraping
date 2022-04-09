@@ -4,18 +4,18 @@ import pandas as pd
 from itertools import zip_longest
 
 # Create empty lists, column of data ew want to srap
-movietitle = []
-ratings = []
-year = []
+movietitle_list = []
+ratings_list = []
+year_list = []
 
 
 class TopMovies:
     def getsoup(self):
         # Save page content
-        getlink = requests.get("https://www.imdb.com/chart/top/?ref_=nv_mv_250")
-        src = getlink.content
+        getlink = requests.get("https://www.imdb.com/chart/top/").text
+        # src = getlink.content
         # Create soup object to parse content
-        soup = BeautifulSoup(src, 'lxml')
+        soup = BeautifulSoup(getlink, 'lxml')
         return soup
 
     def getelements(self):
@@ -32,10 +32,11 @@ class TopMovies:
         # Loop over returned lists to extract needed info into other list
         movietitle, ratings, year = self.getelements()
         for i in range(len(movietitle)):
-            movietitle.append(movietitle[i].text)
-            ratings.append(ratings[i].text)
-            year.append(year[i].text)
-        return movietitle, ratings, year
+            movietitle_list.append(movietitle[i].text.strip())
+            ratings_list.append(ratings[i].text.strip())
+            year_list.append(year[i].text.strip())
+
+        return movietitle_list, ratings_list, year_list
 
     def saveresults(self):
         # Create csv file and fill it with values
