@@ -35,7 +35,6 @@ class TopMovies:
             movietitle_list.append(movietitle[i].text.strip())
             ratings_list.append(ratings[i].text.strip())
             year_list.append(year[i].text.strip())
-
         return movietitle_list, ratings_list, year_list
 
     def saveresults(self):

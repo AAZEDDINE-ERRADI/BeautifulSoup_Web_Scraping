@@ -1,7 +1,7 @@
-from TaskMovies import TopMovies
+from LinkedinJobs import Jobs
 import requests
 import pandas as pd
 from itertools import zip_longest
 
-TaskMovies = TopMovies()
-TaskMovies.saveresults()
+LinkedinJobs = Jobs()
+LinkedinJobs.SaveResults()
