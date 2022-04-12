@@ -27,7 +27,7 @@ class Jobs:
     def getElements(self):
         soup = self.GetSoup() # we called method
         # find the elements containing info we need
-        JobTitle = soup.find_all("h1",{"class": "t-24 t-bold"})
+        JobTitle = soup.find_all("h1", {"class": "t-24 t-bold"})
         CompanyName = soup.find_all("span", {"class":"jobs-unified-top-card__company-name"})
         CompanyLocation = soup.find_all("span", {"class":"jobs-unified-top-card__bullet"})
         JobType = soup.find_all("li", {"class":"jobs-unified-top-card__job-insight"})
@@ -54,8 +54,15 @@ class Jobs:
 
     def SaveResults(self):
         # Create csv file and fill it with values
-        JobTitle, CompanyName, CompanyLocation, JobType, NumberEmployees, JobPoster, CompanyPageLinkedin = self.FillLists()
-        result = list(zip_longest(JobTitle, CompanyName, CompanyLocation, JobType, NumberEmployees, JobPoster, CompanyPageLinkedin, Link_list))
-        df = pd.DataFrame(result)
-        df.columns = ['Job Title', 'CompanyName', 'CompanyLocation', 'JobType', 'Number Employees', 'Job Poster', 'Page Linkedin', 'links']
+        JobTitle, CompanyName, CompanyLocation, JobType, NumberEmployees, JobPoster, CompanyPageLinkedin, Link_list = self.FillLists()
+        df = pd.DataFrame({
+            'title': JobTitle,
+            'Company Name': CompanyName,
+            'Company Location': CompanyLocation,
+            'JobType': JobType,
+            'Number of Employees': NumberEmployees,
+            'JobPoster': JobPoster,
+            'Company Page': CompanyPageLinkedin,
+            'Link': Link_list
+        })
         df.to_csv('linkedin.csv')
