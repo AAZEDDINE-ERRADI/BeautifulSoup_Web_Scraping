@@ -43,5 +43,5 @@ class TopMovies:
         result = list(zip_longest(movietitle, ratings, year))
         df = pd.DataFrame(result)
         df.columns = ['Movie Title', 'IMDB Rating', 'Year']
-        df.to_csv('movies.csv')
+        df.to_csv('IMDBMovies.csv')
 

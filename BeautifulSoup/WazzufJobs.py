@@ -45,7 +45,7 @@ class Jobs:
         result = list(zip_longest(jobTitle, CompanyName, LocationName, JobSkills, Links_list))
         df = pd.DataFrame(result)
         df.columns = ['job title', 'company name', 'location name', 'job skills', 'links']
-        df.to_csv('data.csv')
+        df.to_csv('WazzufJobs.csv')
 
 
     # def saveResultsWithZip(self):

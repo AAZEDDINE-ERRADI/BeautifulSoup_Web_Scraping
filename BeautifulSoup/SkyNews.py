@@ -50,4 +50,4 @@ class Sky:
             'Fotball': Fotball,
             'Article Link': ArticleLink_list,
         })
-        df.to_csv('sky.csv')
+        df.to_csv('SkyNews.csv')

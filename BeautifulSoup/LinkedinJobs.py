@@ -65,4 +65,4 @@ class Jobs:
             'Company Page': CompanyPageLinkedin,
             'Link': Link_list
         })
-        df.to_csv('linkedin.csv')
+        df.to_csv('linkedinJobs.csv')
